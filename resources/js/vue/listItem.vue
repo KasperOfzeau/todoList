@@ -14,7 +14,33 @@
 
 <script>
     export default {
-        props: ['item']
+        props: ['item'],
+        methods: {
+            updateCheck() {
+                axios.put('api/item/' + this.item.id, {
+                    item: this.item
+                })
+                .then(response => {
+                    if(response.satus == 200) {
+                        this.$emit('itemchanged');
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            },
+            removeItem() {
+                axios.delete('api/item/' + this.item.id)
+                .then(response => {
+                    if(response.status == 200) {
+                        this.$emit('itemchanged');
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+        }
     }
 </script>
 
@@ -40,5 +66,9 @@
         border: none;
         color: #ff0000;
         outline: none;
+    }
+
+    .trashcan:hover {
+        cursor: pointer;
     }
 </style>
